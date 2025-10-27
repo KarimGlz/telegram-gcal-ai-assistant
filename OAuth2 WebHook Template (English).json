@@ -1,0 +1,333 @@
+{
+  "name": "OAuth2 WebHook",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "oauth2-callback",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -560,
+        -144
+      ],
+      "id": "e042e943-d92f-459c-9263-7eda8f57432b",
+      "name": "OAuth Callback",
+      "webhookId": "db98a4f4-10ba-4865-83a1-924c4db7e168",
+      "alwaysOutputData": true,
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "content": "# Webhook OAuth2",
+        "height": 320,
+        "width": 432,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -592,
+        -288
+      ],
+      "id": "116d2476-5e5f-492f-9a8d-935857f73632",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "# Update & Get Rows",
+        "height": 320,
+        "width": 384,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -128,
+        -288
+      ],
+      "id": "6d650cac-82ce-4004-9de9-baa552299d00",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "# Succes Message",
+        "height": 320,
+        "width": 256,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        288,
+        -288
+      ],
+      "id": "5a869594-b11d-4cbe-a691-31776791d583",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.Chat_ID }}",
+        "text": "🎉 ¡listo!\nTu cuenta de Google Calendar se ha vinculado correctamente✅\nÚltimo paso para completar tu registro 🌎\nNecesito que me indiques tu zona horaria 🕓\n📍 Ejemplo:\n- 🇲🇽 Ciudad de México\n- 🏙️ Monterrey\n- 🗽 New York\nUna vez me indiques tu zona horaria ⏰, ¡finalizaremos tu registro con éxito! ✅\n\n\n",
+        "replyMarkup": "forceReply",
+        "forceReply": {},
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        368,
+        -144
+      ],
+      "id": "9244b3c9-e7fd-4050-8041-26150b4621d9",
+      "name": "Login Succes",
+      "webhookId": "7bea0c11-40df-4b60-b9fc-b7be537e71e1",
+      "credentials": {
+        "telegramApi": {
+          "id": "UDQKRfYTs9iaRjRE",
+          "name": "API_AssistentTestBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "Z8v2gBzHghrxT43n",
+          "mode": "list",
+          "cachedResultName": "AssistentTestBot_USERS_DATABASE",
+          "cachedResultUrl": "/projects/T4ORIZiCyrpIYlyN/datatables/Z8v2gBzHghrxT43n"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "User_ID",
+              "keyValue": "={{ $('OAuth Callback').item.json.query.state }}"
+            }
+          ]
+        },
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        -144
+      ],
+      "id": "8bd40b3f-1209-4e93-8b8f-536790e8e8aa",
+      "name": "Get row(s)2"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "value": "Z8v2gBzHghrxT43n",
+          "mode": "list",
+          "cachedResultName": "AssistentTestBot_USERS_DATABASE",
+          "cachedResultUrl": "/projects/T4ORIZiCyrpIYlyN/datatables/Z8v2gBzHghrxT43n"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "User_ID",
+              "keyValue": "={{ $json.User_ID }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Acces_Token": "={{ $('Get Refresh Token').item.json.access_token }}",
+            "Refresh_Token": "={{ $('Get Refresh Token').item.json.refresh_token }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "User_ID",
+              "displayName": "User_ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Chat_ID",
+              "displayName": "Chat_ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Username",
+              "displayName": "Username",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Acces_Token",
+              "displayName": "Acces_Token",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Refresh_Token",
+              "displayName": "Refresh_Token",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        112,
+        -144
+      ],
+      "id": "9037af4e-7a06-452f-baf0-fd5d7b5035cb",
+      "name": "Update row(s)",
+      "alwaysOutputData": true,
+      "executeOnce": false,
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://oauth2.googleapis.com/token",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "code",
+              "value": "={{ $json.query.code }}"
+            },
+            {
+              "name": "client_id"
+            },
+            {
+              "name": "client_secret"
+            },
+            {
+              "name": "redirect_uri",
+              "value": "https://n8n-n8n.h8u4ug.easypanel.host/webhook-test/oauth2-callback"
+            },
+            {
+              "name": "grant_type",
+              "value": "authorization_code"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -320,
+        -144
+      ],
+      "id": "793e6c2f-a690-4ee3-b7e8-12ceb84fb273",
+      "name": "Get Refresh Token"
+    },
+    {
+      "parameters": {
+        "content": "# How works this WF\n The user receives a unique URL that triggers the Webhook. With this unique URL, I can obtain the refresh token for each user. The `user_ID` is passed as the `state` parameter. I use this state value to find the corresponding user row in the database and update its fields. After that, the workflow sends a “login successful” message to the user.\n",
+        "height": 384,
+        "width": 368,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -976,
+        -544
+      ],
+      "id": "630cbb76-d6fe-4e1d-86f3-92612596e628",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "OAuth Callback": {
+      "main": [
+        [
+          {
+            "node": "Get Refresh Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s)2": {
+      "main": [
+        [
+          {
+            "node": "Update row(s)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row(s)": {
+      "main": [
+        [
+          {
+            "node": "Login Succes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Refresh Token": {
+      "main": [
+        [
+          {
+            "node": "Get row(s)2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "89ed3ed6-f25d-4d36-9cd6-6c35e3f5b8dd",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8b114fb0c3b32b098a4a2c19f21819fd681cd2da3945481999b9010778e77ad0"
+  },
+  "id": "Q53laoS3oDkpTIQC",
+  "tags": []
+}
