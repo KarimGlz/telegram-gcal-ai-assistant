@@ -1,0 +1,1876 @@
+{
+  "name": "AssistentTestBotTg",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "Z8v2gBzHghrxT43n",
+          "mode": "list",
+          "cachedResultName": "AssistentTestBot_USERS_DATABASE",
+          "cachedResultUrl": "/projects/T4ORIZiCyrpIYlyN/datatables/Z8v2gBzHghrxT43n"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "User_ID",
+              "keyValue": "={{ $json.User_ID }}"
+            }
+          ]
+        },
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        -1136,
+        400
+      ],
+      "id": "23de9f4e-2c0c-4eaa-bb64-96a651d11eb9",
+      "name": "Get row(s)",
+      "alwaysOutputData": true,
+      "executeOnce": false,
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "75866a89-da7b-434e-99bb-2e0be100d83e",
+              "leftValue": "={{ $json.isEmpty() }}",
+              "rightValue": "=",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -880,
+        400
+      ],
+      "id": "9cb0985e-5fc3-49bf-ae82-929480abf420",
+      "name": "New User?"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.Acces_Token }}",
+                    "rightValue": "=null",
+                    "operator": {
+                      "type": "string",
+                      "operation": "empty",
+                      "singleValue": true
+                    },
+                    "id": "216ff486-2395-4fb8-b7f8-447c958deb41"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Not Token Exist"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "290d6d5d-53a0-4ba1-a8c4-1dccae6f9c00",
+                    "leftValue": "={{ $json.Acces_Token }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEmpty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Token Exist"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        -608,
+        544
+      ],
+      "id": "337a0c7f-d41c-4475-bbe8-35eb19d91a28",
+      "name": "User Token exist?"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $('Chat').item.json.message.voice.file_id }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        1008
+      ],
+      "id": "93a36245-df8f-456d-ab04-00c1dd79dee3",
+      "name": "Get a Voice",
+      "webhookId": "20218481-d48f-42d6-b2d3-8c2c3e3f16f7",
+      "credentials": {
+        "telegramApi": {
+          "id": "UDQKRfYTs9iaRjRE",
+          "name": "API_AssistentTestBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "inputType": "binary",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        176,
+        1008
+      ],
+      "id": "5b76b6eb-2904-40e8-bf4f-f9d066fdb428",
+      "name": "Transcribe a recording",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "q2yX7JcIR4kT6SSx",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7f2b1d35-6676-4c95-b07e-74cccec377d3",
+              "name": "=FinalMessage",
+              "value": "={{ $json.Massage }}{{ $json.MassageText }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        528,
+        848
+      ],
+      "id": "010f6f73-ef09-438b-924f-b775a76c5a20",
+      "name": "FinalMessage"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a245ad9e-02c2-479d-921b-23bb848fcbd9",
+              "name": "MassageText",
+              "value": "={{ $('Basic Propierties').item.json.MessageText }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        176,
+        848
+      ],
+      "id": "b6125af8-3c21-4006-9d99-f0861a795746",
+      "name": "MessageText"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a245ad9e-02c2-479d-921b-23bb848fcbd9",
+              "name": "Massage",
+              "value": "={{ $json.content.parts[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        368,
+        1008
+      ],
+      "id": "2f7e68f1-1c54-40cc-ae35-460e6554ccd2",
+      "name": "Voice to text"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Basic Propierties').item.json.MessageText }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "45c6d6ca-f4f0-41d2-8dc7-aa90cf1e5834"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Text"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "6b852fe2-f74c-4e04-9437-6f10be724c1e",
+                    "leftValue": "={{ $('Chat').item.json.message.voice }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Voice"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        -224,
+        864
+      ],
+      "id": "5b46c1b0-6b7a-4024-8a29-a145b3c94269",
+      "name": "Text or Voice"
+    },
+    {
+      "parameters": {
+        "content": "# User input and recognition\nRecupera el mensaje principal del usuario y luego extrae las propiedades del chat del usuario.\nUsando estas propiedades, verificamos si el usuario existe en la base de datos mediante una condición IF:\n- True: Se recuperan los datos del usuario y se registran en la base de datos. Luego, se envía un mensaje que contiene una URL única de inicio de sesión.\n- False: El sistema verifica si existe un access token o refresh token en la base de datos para ese usuario:\n  - Si no se encuentra ningún token, significa que el usuario aún no ha iniciado sesión, por lo que se envía otro mensaje de inicio de sesión.\n  - Si existe un token, el flujo continúa a la siguiente sección.",
+        "height": 528,
+        "width": 1424,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1696,
+        176
+      ],
+      "id": "33e0f53c-57fe-4973-a1fe-4ccb0e71fa40",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "Z8v2gBzHghrxT43n",
+          "mode": "list",
+          "cachedResultName": "AssistentTestBot_USERS_DATABASE",
+          "cachedResultUrl": "/projects/T4ORIZiCyrpIYlyN/datatables/Z8v2gBzHghrxT43n"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "User_ID": "={{ $('Basic Propierties').item.json.User_ID }}",
+            "Username": "={{ $('Basic Propierties').item.json.Username }}",
+            "Chat_ID": "={{ $('Basic Propierties').item.json.Chat_ID }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "User_ID",
+              "displayName": "User_ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Chat_ID",
+              "displayName": "Chat_ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Username",
+              "displayName": "Username",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Acces_Token",
+              "displayName": "Acces_Token",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Refresh_Token",
+              "displayName": "Refresh_Token",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        -608,
+        224
+      ],
+      "id": "87c15a77-c0fc-48f4-8aeb-ae0c65d295bd",
+      "name": "Insert row1"
+    },
+    {
+      "parameters": {
+        "content": "# Identify message\nIdentificamos el mensaje enviado por el usuario, verificamos si es audio o texto (si es audio, se convierte a texto) y luego lo mapeamos.",
+        "height": 432,
+        "width": 944,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -240,
+        720
+      ],
+      "typeVersion": 1,
+      "id": "b42c91d7-65d5-4230-bb3c-b36567b8ea1e",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{\n  json: {\n    oauth_url: \n      \"https://accounts.google.com/o/oauth2/v2/auth?client_id=\" \n      + \"913765286711-hh8hciuv0gkk8vvett4t9usjfgfatq43.apps.googleusercontent.com\"\n      + \"&redirect_uri=\" \n      + encodeURIComponent(\"https://n8n-n8n.h8u4ug.easypanel.host/webhook-test/oauth2-callback\")\n      + \"&response_type=code\" \n      + \"&scope=\" + encodeURIComponent(\"https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events\") \n      + \"&access_type=offline\" \n      + \"&include_granted_scopes=true\" \n      + \"&prompt=consent\" \n      + \"&state=\" + $('Basic Propierties').first().json.User_ID\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -400,
+        224
+      ],
+      "id": "d9777619-1858-48e8-a25c-b26a2ba2c53b",
+      "name": "OAuthUrl1"
+    },
+    {
+      "parameters": {
+        "content": "# Messages",
+        "height": 544,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        144
+      ],
+      "id": "dd91799c-916e-4d64-a3b5-6c930d312d7f",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "10d874a8-878a-4f79-85bc-d3c423e47753",
+              "name": "User_ID",
+              "value": "={{ $json.message.from.id }}",
+              "type": "string"
+            },
+            {
+              "id": "daccb712-2c24-4eab-882c-44de19661478",
+              "name": "Username",
+              "value": "={{ $json.message.from.username }}",
+              "type": "string"
+            },
+            {
+              "id": "0adb8521-3f6b-4e49-bf47-918da47331a8",
+              "name": "MessageText",
+              "value": "={{ $json.message.text }}",
+              "type": "string"
+            },
+            {
+              "id": "d282ab80-3b53-4472-82d3-8029f9fcfd01",
+              "name": "Chat_ID",
+              "value": "={{ $json.message.chat.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1376,
+        400
+      ],
+      "id": "a2fbb9de-b0d6-48c7-b8d8-32c92c35c65a",
+      "name": "Basic Propierties"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Basic Propierties').item.json.Chat_ID }}",
+        "text": "Hola! 👋 Soy tu asistente de agenda personal.  \nConmigo puedes crear, consultar, actualizar o eliminar tus eventos de Google Calendar de manera rápida y sencilla.  \n\nPara comenzar, necesito que conectes tu cuenta de Google Calendar.  \nHaz clic en el enlace a continuación para iniciar sesión y autorizar el acceso.\n\nUna vez conectado, podrás pedirme que agende tus reuniones, revise tu disponibilidad o modifique tus eventos directamente desde este chat. 🚀",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "🔗 Inicia sesión",
+                    "additionalFields": {
+                      "url": "={{ $json.oauth_url }}"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -176,
+        224
+      ],
+      "id": "36de3da2-3407-4419-bbba-e5b463d557f3",
+      "name": "First Message",
+      "webhookId": "7bea0c11-40df-4b60-b9fc-b7be537e71e1",
+      "credentials": {
+        "telegramApi": {
+          "id": "UDQKRfYTs9iaRjRE",
+          "name": "API_AssistentTestBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Basic Propierties').item.json.Chat_ID }}",
+        "text": "Para continuar, recuerda que necesito que conectes tu cuenta de Google Calendar.  \nHaz clic en el enlace a para iniciar sesión y autorizar el acceso.\nUna vez conectado, podrás pedirme que agende tus reuniones, revise tu disponibilidad o modifique tus eventos directamente desde este chat. 🚀",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "🔗 Inicia Sesión",
+                    "additionalFields": {
+                      "url": "={{ $json.oauth_url }}"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -176,
+        416
+      ],
+      "id": "29b846e6-f59e-4621-867a-be0d36f1479c",
+      "name": "Remember to Login",
+      "webhookId": "7bea0c11-40df-4b60-b9fc-b7be537e71e1",
+      "credentials": {
+        "telegramApi": {
+          "id": "UDQKRfYTs9iaRjRE",
+          "name": "API_AssistentTestBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{\n  json: {\n    oauth_url: \n      \"https://accounts.google.com/o/oauth2/v2/auth?client_id=\" \n      + \"913765286711-hh8hciuv0gkk8vvett4t9usjfgfatq43.apps.googleusercontent.com\"\n      + \"&redirect_uri=\" \n      + encodeURIComponent(\"https://n8n-n8n.h8u4ug.easypanel.host/webhook-test/oauth2-callback\")\n      + \"&response_type=code\" \n      + \"&scope=\" + encodeURIComponent(\"https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events\") \n      + \"&access_type=offline\" \n      + \"&include_granted_scopes=true\" \n      + \"&prompt=consent\" \n      + \"&state=\" + $('Basic Propierties').first().json.User_ID\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -400,
+        416
+      ],
+      "id": "19f10035-237b-4f17-900b-88b34a5bc947",
+      "name": "OAuthUrl2"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1600,
+        400
+      ],
+      "id": "787d28f5-89a3-466c-8325-1bbeaa3ae6cc",
+      "name": "Chat",
+      "webhookId": "e91a6b47-001c-4bc4-b8ee-87b619f5673e",
+      "credentials": {
+        "telegramApi": {
+          "id": "UDQKRfYTs9iaRjRE",
+          "name": "API_AssistentTestBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Calendar Agent\nPasamos el mensaje al agente, el cual utiliza las herramientas que creé para el Google Calendar del usuario. Estas herramientas son privadas, por lo que si necesita información sobre cómo crearlas, por favor póngase en contacto conmigo.",
+        "height": 528,
+        "width": 896,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        736,
+        720
+      ],
+      "id": "7f640315-9db3-4ec2-97a3-709e25d4af58",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={\n\"User_ID\": \"{{ $('Basic Propierties').item.json.User_ID }}\",\n\"Name\": \"{{ $('Basic Propierties').item.json.Username }}\",\n\"timeZone\": \"{{ $('Get Update token').item.json.timeZone }}\",\n\"currentDateTime\":\"{{ $now.setZone($('Get Update token').item.json.timeZone).toString() }}\"\n}",
+        "contextWindowLength": 6
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        896,
+        1104
+      ],
+      "id": "b8c0368d-b755-45ff-bd7d-a3560911b729",
+      "name": "Memory"
+    },
+    {
+      "parameters": {
+        "content": "# Final Message\nFinalmente, enviamos la respuesta al usuario.",
+        "height": 432,
+        "width": 272,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1664,
+        720
+      ],
+      "id": "a1b983da-2f1f-47d6-beb6-a0daa3eb4034",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.FinalMessage }}",
+        "options": {
+          "systemMessage": ""
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        1072,
+        848
+      ],
+      "id": "8cf5e007-5773-4d38-87f8-ae89ad65951f",
+      "name": "Calendar Agent"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "value": "Z8v2gBzHghrxT43n",
+          "mode": "list",
+          "cachedResultName": "AssistentTestBot_USERS_DATABASE",
+          "cachedResultUrl": "/projects/T4ORIZiCyrpIYlyN/datatables/Z8v2gBzHghrxT43n"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "User_ID",
+              "keyValue": "={{ $('Basic Propierties').item.json.User_ID }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Acces_Token": "={{ $json.access_token }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "User_ID",
+              "displayName": "User_ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Chat_ID",
+              "displayName": "Chat_ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Username",
+              "displayName": "Username",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Acces_Token",
+              "displayName": "Acces_Token",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Refresh_Token",
+              "displayName": "Refresh_Token",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        -960,
+        864
+      ],
+      "id": "bfe4ede8-0f20-4a33-9bf8-6391b70e1748",
+      "name": "Update Token",
+      "alwaysOutputData": true,
+      "executeOnce": false,
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://oauth2.googleapis.com/token",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "client_id"
+            },
+            {
+              "name": "client_secret"
+            },
+            {
+              "name": "grant_type",
+              "value": "refresh_token"
+            },
+            {
+              "name": "refresh_token",
+              "value": "={{ $('Get row(s)').item.json.Refresh_Token }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1152,
+        880
+      ],
+      "id": "08c34b16-29af-4a8f-bbd2-232ca6a25786",
+      "name": "Token Refresh",
+      "executeOnce": false,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ca34e7b7-8fd0-4b26-9fdc-814f2acdb213",
+              "name": "Updated_Token",
+              "value": "={{ $json.Acces_Token }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -464,
+        864
+      ],
+      "id": "162e648c-3850-46a1-bdaa-7f7b4ea6bdde",
+      "name": "Updated Token Field"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "Z8v2gBzHghrxT43n",
+          "mode": "list",
+          "cachedResultName": "AssistentTestBot_USERS_DATABASE",
+          "cachedResultUrl": "/projects/T4ORIZiCyrpIYlyN/datatables/Z8v2gBzHghrxT43n"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "User_ID",
+              "keyValue": "={{ $json.User_ID }}"
+            }
+          ]
+        },
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        -704,
+        864
+      ],
+      "id": "7ef76760-2f8d-4085-a576-29c4158f1917",
+      "name": "Get Update token",
+      "alwaysOutputData": true,
+      "executeOnce": false,
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "content": "# Update an Acces Token\nTomamos el refresh token del usuario para generar un nuevo access token, actualizamos la base de datos con el nuevo access token y luego recuperamos ese access token actualizado y lo mapeamos.",
+        "height": 336,
+        "width": 912
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1184,
+        736
+      ],
+      "id": "93d1aa89-3f19-4547-a782-4c36c219e59c",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "description": "=",
+        "workflowId": {
+          "__rl": true,
+          "value": "KBT0eoZZfGveMqHf",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/KBT0eoZZfGveMqHf",
+          "cachedResultName": "Create Event Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "user_ID": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('user_ID', ``, 'number') }}",
+            "eventPayload": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('eventPayload', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "user_ID",
+              "displayName": "user_ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "eventPayload",
+              "displayName": "eventPayload",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1024,
+        1104
+      ],
+      "id": "3339a3e7-e64c-456a-98b5-b9784bb6297d",
+      "name": "Create Event"
+    },
+    {
+      "parameters": {
+        "description": "=",
+        "workflowId": {
+          "__rl": true,
+          "value": "a6N9DiHLifCC3IFB",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/a6N9DiHLifCC3IFB",
+          "cachedResultName": "Get Events Tools"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "user_ID": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('user_ID', ``, 'number') }}",
+            "timeMin": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('timeMin', ``, 'string') }}",
+            "timeMax": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('timeMax', ``, 'string') }}",
+            "timeZone": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('timeZone', ``, 'string') }}",
+            "q": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('q', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "user_ID",
+              "displayName": "user_ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "timeMin",
+              "displayName": "timeMin",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "timeMax",
+              "displayName": "timeMax",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "timeZone",
+              "displayName": "timeZone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "q",
+              "displayName": "q",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1168,
+        1104
+      ],
+      "id": "63056bcc-e148-4ff6-be29-694010ed32d7",
+      "name": "Get Event Tool"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9c7f249e-f5d0-4588-b306-4de319456d5c",
+              "leftValue": "={{ $json.timeZone }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1392,
+        944
+      ],
+      "id": "977ed904-0b97-4658-a2d9-916a7b5eac5c",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Toma el siguiente texto del usuario:\n {{ $('Basic Propierties').item.json.MessageText }}\nIdentifica si contiene algo relacionado sobre una zona horaria, Ya sea identificando la ciudad. Si es asi, transforma el mensaje a zona horaria tipo IANA. Y rellena los datos:\n\"timeZone\": zona horaria IANA.\n\"massage\": \n\"🎉 ¡Todo listo! \nYa puedes continuar utilizando el asistente de forma correcta.\nAhora puedo ayudarte a crear, actualizar o eliminar eventos directamente desde aquí 😎\n✍️ Ejemplos de lo que puedes decirme:\n• “📅 Crea un evento mañana a las 10 a.m. llamado Reunión de equipo”\n• “🔍 Muéstrame mis eventos de hoy”\n• “🗑️ Borra mi evento del viernes”\\n🚀 \n¡Ya estás listo para organizar tu tiempo como un pro!\"\n\nSI EL MENSAJE NO TIENE NADA QUE VER CON ALGUNA ZONA HORARIA POR FAVOR ENVIA SOLO LOS SIGUIENTES DATOS:\n\"massage\":\n\"⏰ Hey! Antes de seguir, necesito saber tu *zona horaria* 🌎\nSin ella, el asistente no podrá agendar tus eventos correctamente 📅✨\n",
+        "hasOutputParser": true,
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        -1136,
+        1552
+      ],
+      "id": "83b7bc2f-74f0-48c9-92b9-80a1d506bedf",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1136,
+        1728
+      ],
+      "id": "842106e1-aca1-41f6-89ec-c1e7c92f5fb4",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "q2yX7JcIR4kT6SSx",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n\t\"timeZone\": \"string\",\n    \"massage\": \"string\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -960,
+        1728
+      ],
+      "id": "36c93953-57e8-463d-b93f-26f2534fa062",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "FP14jUcjossrdZb5",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/FP14jUcjossrdZb5",
+          "cachedResultName": "Update Event Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1504,
+        1104
+      ],
+      "id": "a088ca70-4e35-4081-a840-5bc8237a086e",
+      "name": "Update Event Tool"
+    },
+    {
+      "parameters": {
+        "options": {
+          "temperature": 0.2
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        784,
+        1104
+      ],
+      "id": "b4d4cb06-88ef-436b-adc8-f757037de8c5",
+      "name": "Gemini",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "q2yX7JcIR4kT6SSx",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{\n  json: {\n    oauth_url: \n      \"https://accounts.google.com/o/oauth2/v2/auth?client_id=\" \n      + \"913765286711-hh8hciuv0gkk8vvett4t9usjfgfatq43.apps.googleusercontent.com\"\n      + \"&redirect_uri=\" \n      + encodeURIComponent(\"https://n8n-n8n.h8u4ug.easypanel.host/webhook-test/oauth2-callback\")\n      + \"&response_type=code\" \n      + \"&scope=\" + encodeURIComponent(\"https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events\") \n      + \"&access_type=offline\" \n      + \"&include_granted_scopes=true\" \n      + \"&prompt=consent\" \n      + \"&state=\" + $('Basic Propierties').first().json.User_ID\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -848,
+        1200
+      ],
+      "id": "50c679f4-ab6f-4eea-8df4-793a1a05d0e1",
+      "name": "OAuthUrl3"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Basic Propierties').item.json.Chat_ID }}",
+        "text": "Ups, parece que tu sesión caducó o tuvo un error. ¿Podrías iniciar sesión otra vez, por favor?",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "🔗 Inicia Sesión",
+                    "additionalFields": {
+                      "url": "={{ $json.oauth_url }}"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -512,
+        1200
+      ],
+      "id": "72cfa4c5-967b-4e6f-a63c-aea97324b8da",
+      "name": "Log In Again",
+      "webhookId": "7bea0c11-40df-4b60-b9fc-b7be537e71e1",
+      "credentials": {
+        "telegramApi": {
+          "id": "UDQKRfYTs9iaRjRE",
+          "name": "API_AssistentTestBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "value": "Z8v2gBzHghrxT43n",
+          "mode": "list",
+          "cachedResultName": "AssistentTestBot_USERS_DATABASE",
+          "cachedResultUrl": "/projects/T4ORIZiCyrpIYlyN/datatables/Z8v2gBzHghrxT43n"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "User_ID",
+              "keyValue": "={{ $('Basic Propierties').item.json.User_ID }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "timeZone": "={{ $json.output.timeZone }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "User_ID",
+              "displayName": "User_ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Chat_ID",
+              "displayName": "Chat_ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Username",
+              "displayName": "Username",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Acces_Token",
+              "displayName": "Acces_Token",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Refresh_Token",
+              "displayName": "Refresh_Token",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "timeZone",
+              "displayName": "timeZone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1,
+      "position": [
+        -752,
+        1552
+      ],
+      "id": "b932e945-3fd7-4ef9-ae69-930ac9217b10",
+      "name": "Update timeZone",
+      "alwaysOutputData": true,
+      "executeOnce": false,
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "content": "## If node\nUna vez que verifica que efectivamente existe un token en la base de datos del usuario, pasamos a otra condición IF que comprueba si el usuario tiene un timezone en la base de datos:\n- False: Envía la instrucción a la LLM Chain.\n- True: Continúa el flujo verificando que el usuario efectivamente tiene un timezone.",
+        "height": 336,
+        "width": 480,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1696,
+        736
+      ],
+      "id": "2dfdc61a-e7da-4b0a-a7c3-809418e9ff14",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Error in Http Request\nSi la solicitud HTTP devuelve un error, significa que el refresh token no es válido, lo que indica que la sesión del usuario ha caducado. En este caso, se genera una nueva URL única y se envía al usuario para que inicie sesión nuevamente.",
+        "height": 256,
+        "width": 912,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1184,
+        1104
+      ],
+      "id": "016481d3-9bad-4a7b-abcc-0ca49926ec02",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "# LLM Chain\nLa LLM Chain toma el mensaje del usuario. Si contiene algo relacionado con el timezone, lo transforma al formato requerido para las herramientas del agente y envía un mensaje de confirmación al usuario indicando que el registro fue exitoso. Si el mensaje no contiene nada relacionado con el timezone, la LLM Chain genera un mensaje solicitando al usuario que proporcione su timezone.\n",
+        "height": 480,
+        "width": 912,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1184,
+        1392
+      ],
+      "id": "77ff4243-1224-4691-b4ff-38db19620e10",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Basic Propierties').item.json.Chat_ID }}",
+        "text": "={{ $('Basic LLM Chain').item.json.output.massage }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -544,
+        1552
+      ],
+      "id": "55575b39-86da-4ae7-a635-a30cce82aa07",
+      "name": "timeZone Done",
+      "webhookId": "cb728d8a-73a7-46f2-9865-9f247cbcb0b2",
+      "credentials": {
+        "telegramApi": {
+          "id": "UDQKRfYTs9iaRjRE",
+          "name": "API_AssistentTestBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "=",
+        "workflowId": {
+          "__rl": true,
+          "value": "BtFFSzHf3Od7POpf",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/BtFFSzHf3Od7POpf",
+          "cachedResultName": "Delete Event Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "user_ID": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('user_ID', ``, 'number') }}",
+            "timeMin": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('timeMin', ``, 'string') }}",
+            "timeMax": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('timeMax', ``, 'string') }}",
+            "timeZone": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('timeZone', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "user_ID",
+              "displayName": "user_ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "timeMin",
+              "displayName": "timeMin",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "timeMax",
+              "displayName": "timeMax",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "timeZone",
+              "displayName": "timeZone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1328,
+        1104
+      ],
+      "id": "cf01c023-1f23-422f-acb5-5202dd85398a",
+      "name": "Delete Event Tool."
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Basic Propierties').item.json.Chat_ID }}",
+        "text": "={{ $json.output }}{{ $json.text }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "Markdown"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1744,
+        848
+      ],
+      "id": "2c311cae-9000-4b9d-906e-a6e3be33c936",
+      "name": "Final Message",
+      "webhookId": "4e3de31f-cc2a-4a94-a1fc-dcb3a3c4dfa8",
+      "credentials": {
+        "telegramApi": {
+          "id": "UDQKRfYTs9iaRjRE",
+          "name": "API_AssistentTestBot"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Get row(s)": {
+      "main": [
+        [
+          {
+            "node": "New User?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "New User?": {
+      "main": [
+        [
+          {
+            "node": "Insert row1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "User Token exist?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "User Token exist?": {
+      "main": [
+        [
+          {
+            "node": "OAuthUrl2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a Voice": {
+      "main": [
+        [
+          {
+            "node": "Transcribe a recording",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe a recording": {
+      "main": [
+        [
+          {
+            "node": "Voice to text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FinalMessage": {
+      "main": [
+        [
+          {
+            "node": "Calendar Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MessageText": {
+      "main": [
+        [
+          {
+            "node": "FinalMessage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Voice to text": {
+      "main": [
+        [
+          {
+            "node": "FinalMessage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text or Voice": {
+      "main": [
+        [
+          {
+            "node": "MessageText",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get a Voice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert row1": {
+      "main": [
+        [
+          {
+            "node": "OAuthUrl1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OAuthUrl1": {
+      "main": [
+        [
+          {
+            "node": "First Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic Propierties": {
+      "main": [
+        [
+          {
+            "node": "Get row(s)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OAuthUrl2": {
+      "main": [
+        [
+          {
+            "node": "Remember to Login",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chat": {
+      "main": [
+        [
+          {
+            "node": "Basic Propierties",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Calendar Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calendar Agent": {
+      "main": [
+        [
+          {
+            "node": "Final Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Token": {
+      "main": [
+        [
+          {
+            "node": "Get Update token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Token Refresh": {
+      "main": [
+        [
+          {
+            "node": "Update Token",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "OAuthUrl3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Updated Token Field": {
+      "main": [
+        [
+          {
+            "node": "Text or Voice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Update token": {
+      "main": [
+        [
+          {
+            "node": "Updated Token Field",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Event": {
+      "ai_tool": [
+        [
+          {
+            "node": "Calendar Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Event Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Calendar Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Token Refresh",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Update timeZone",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Event Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Calendar Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Calendar Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OAuthUrl3": {
+      "main": [
+        [
+          {
+            "node": "Log In Again",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update timeZone": {
+      "main": [
+        [
+          {
+            "node": "timeZone Done",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete Event Tool.": {
+      "ai_tool": [
+        [
+          {
+            "node": "Calendar Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f73b3eeb-59f7-4544-a2b7-0ce8323d46e6",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8b114fb0c3b32b098a4a2c19f21819fd681cd2da3945481999b9010778e77ad0"
+  },
+  "id": "cTtCOfijkZb9xoBz",
+  "tags": []
+}
