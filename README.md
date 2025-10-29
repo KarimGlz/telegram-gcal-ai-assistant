@@ -13,6 +13,9 @@ For support, implementation guidance, or feature suggestions, please reach out a
 **Bot Asistente de Telegram integrado con Google Calendar.**
  Un asistente agendador que permite a cualquier usuario iniciar sesión una vez desplegado. Diseñado para uso personal o empresarial, con potencial para monetizar o proporcionar acceso compartido entre equipos.
 
+## Ejemplo de uso:
+
+
 ## ✨ Características
 
 ### 🔐 Autenticación y Seguridad
@@ -51,7 +54,30 @@ For support, implementation guidance, or feature suggestions, please reach out a
 - **Mensajes informativos** - Guía clara en cada paso del proceso
 - **Recuperación de errores** - Manejo elegante de tokens expirados o errores de autenticación
 
+## 🛠️ Tecnologías
+
+- **n8n** 
+- **Google Gemini 2.5 Flash** 
+- **Telegram Bot API**
+- **Google Calendar API**
+- **OAuth2** 
+- **n8n DataTable**
+
+### 💡 Sugerencias de Mejora
+
+- 🔄 **Cambiar a OpenAI** - Para mejor rendimiento y mayor capacidad de razonamiento, se recomienda cambiar el modelo de Google Gemini a OpenAI
+- 🔔 **Recordatorios automáticos** - Implementar notificaciones antes de eventos
+- 🌍 **Soporte multi-idioma** - Detectar idioma del usuario automáticamente
+- 📊 **Analytics** - Agregar tracking de uso y estadísticas
+- 🎨 **Respuestas con formato** - Usar Markdown en respuestas de Telegram para mejor legibilidad
+
  ---
 ## 📩 Contacto
-Para soporte, orientación de implementación o sugerencias de funcionalidades, por favor comuníquese a karim.glzm@gmail.com
+Para soporte, orientación de implementación o sugerencias de funcionalidades, por favor comuníquese a karim.glzm@gmail.com.
+Este es un proyecto personal de portfolio. Sin embargo, si encuentras útil este proyecto y deseas:
+- Reportar bugs
+- Sugerir mejoras
+- Compartir casos de uso
+
+¡No dudes en contactarme!
  
