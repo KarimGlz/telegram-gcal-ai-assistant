@@ -40,6 +40,16 @@ Plus full timezone support and complete CRUD operations for your calendar.
 - **Stay logged in** - No need to authenticate every time you use it
 - **Smart user flow** - Automatically recognizes new vs. returning users and guides them accordingly
 
+## ⚙️ Prerequisites
+
+To replicate or learn from this project, you'll need:
+- n8n account (self-hosted or cloud)
+- Google Cloud project with Calendar API enabled
+- Telegram bot token (from BotFather)
+- Google Gemini API key
+
+**Note:** The custom calendar tools are proprietary and not included in this repo. Contact me if you're interested in learning how to build similar tools.
+
 ## 🛠️ Built With
 
 - **n8n** - Workflow automation platform
@@ -58,6 +68,18 @@ Want to make it even better? Here are some suggestions:
 - 🌍 **Multi-language support** - Automatically detect and respond in the user's language
 - 📊 **Usage analytics** - Track how people are using the bot and gather insights
 - 🎨 **Prettier responses** - Use Markdown formatting for more readable Telegram messages
+
+---
+
+## 📚 What I Learned
+
+Building this project taught me:
+- Implementing OAuth2 flows from scratch
+- Managing token lifecycle and refresh patterns
+- Building AI agents with LangChain
+- Webhook architecture for real-time communication
+- Database design for multi-user applications
+- Voice-to-text integration with modern LLMs
 
 ---
 
@@ -112,6 +134,21 @@ Además, soporte completo de zonas horarias y operaciones CRUD completas para tu
 - **Mantente conectado** - No necesitas autenticarte cada vez que lo uses
 - **Flujo inteligente de usuario** - Reconoce automáticamente usuarios nuevos vs. recurrentes y los guía en consecuencia
 
+## ⚙️ Requisitos Previos
+
+Para replicar o aprender de este proyecto, necesitarás:
+- **Cuenta de n8n** (self-hosted o en la nube)
+- **Proyecto de Google Cloud** con la API de Calendar habilitada
+- **Token de bot de Telegram** (obtenido desde BotFather)
+- **API key de Google Gemini** (o una de OpenAI como alternativa)
+- **Conocimientos básicos de:**
+  - OAuth2 y flujos de autenticación
+  - APIs REST y webhooks
+  - Conceptos de IA y LLMs
+
+**Nota Importante:** Las herramientas personalizadas de Google Calendar son propietarias y no están incluidas en este repositorio. Si estás interesado en aprender cómo construir herramientas similares, no dudes en contactarme.
+
+
 ## 🛠️ Construido Con
 
 - **n8n** - Plataforma de automatización de workflows
@@ -133,6 +170,19 @@ Además, soporte completo de zonas horarias y operaciones CRUD completas para tu
 
 ---
 
+## 📚 Lo Que Aprendí
+
+Construir este proyecto me enseñó:
+- **Implementación de flujos OAuth2 desde cero** - Entender el ciclo completo de autenticación y autorización
+- **Gestión del ciclo de vida de tokens** - Manejo de refresh tokens, expiración y renovación automática
+- **Construcción de agentes de IA con LangChain** - Diseño de herramientas personalizadas y gestión de memoria conversacional
+- **Arquitectura de webhooks** - Comunicación en tiempo real y manejo de eventos asíncronos
+- **Diseño de bases de datos multiusuario** - Persistencia de datos, relaciones entre usuarios y sus tokens
+- **Integración de voz a texto con LLMs modernos** - Procesamiento multimodal con Google Gemini 2.5 Flash
+- **Automatización de workflows complejos** - Orquestación de múltiples servicios y APIs en n8n
+
+---
+
 ## 📩 Ponte en Contacto
 
 Este es un proyecto personal de portfolio, pero me encantaría saber de ti si:
@@ -146,3 +196,17 @@ No dudes en contactarme en **karim.glzm@gmail.com**
 ---
 
 **Hecho con ❤️ como proyecto de aprendizaje**
+
+---
+
+ 📄 License
+
+This project is available under the **MIT License**.
+
+I only ask that you:
+- 📝 Keep the original copyright notice
+- ⚖️ Include a copy of the MIT license
+
+See the [LICENSE](LICENSE) file for more details.
+
+
