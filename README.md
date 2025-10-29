@@ -79,10 +79,6 @@ Feel free to reach out at **karim.glzm@gmail.com**
 **Bot Asistente de Telegram integrado con Google Calendar.**
  Un asistente agendador que permite a cualquier usuario iniciar sesión una vez desplegado. Diseñado para uso personal o empresarial, con potencial para monetizar o proporcionar acceso compartido entre equipos.
 
-## 🎬 Míralo en acción
-
-![Bot Demo](assets/gif.gif)
-
 ## ✨ ¿Qué puede hacer?
 
 ### 🔐 Autenticación Segura y Fácil
