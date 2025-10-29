@@ -1,212 +1,135 @@
-# telegram-gcal-ai-assistant  
+# 🤖 Telegram Calendar Assistant
 
-**Telegram Assistant Bot integrated with Google Calendar.**  
-A scheduling assistant that allows any user to log in once deployed. Designed for personal or business use, with the potential to monetize or provide shared access across teams.  
+**A smart Telegram bot that connects seamlessly with Google Calendar.**
+
+Your personal scheduling assistant. Perfect for personal use, small teams, or as a monetizable service.
 
 ## 🎬 See it in action
 
 ![Bot Demo](assets/gif.gif)
 
-## ✨ What can it do?
+## ✨ Key Features
 
-### 🔐 Secure & Easy Authentication
-- **One-time Google login** - Connect your calendar once, and you're all set
-- **Smart token management** - Keeps you logged in automatically, refreshing tokens behind the scenes
-- **Personal login links** - Every user gets their own secure authentication URL
-- **Session recovery** - Detects expired sessions and smoothly guides you through re-authentication
-
-### 🤖 AI-Powered Intelligence
-- **Natural language understanding** - Talk to it like you would to a person (powered by Google Gemini)
-- **Smart timezone handling** - Automatically extracts and validates your timezone from conversation
-- **Conversation memory** - Remembers context from your previous messages for more natural interactions
-
-### 🎙️ Works Your Way
-- **Voice or text** - Send voice messages and the bot transcribes them instantly using Gemini 2.5 Flash
-- **Automatic detection** - Knows whether you're sending audio or text without you having to specify
-- **Real-time processing** - Voice commands are converted to text on the fly
+### 🔐 Authentication & AI
+- **One-time OAuth2 login** with automatic token refresh and session recovery
+- **Natural language processing** - Talk naturally using Google Gemini
+- **Voice & text support** - Send voice messages, transcribed instantly
+- **Conversation memory** - Contextual interactions across messages
 
 ### 📅 Full Calendar Control
-**4 specialized tools built specifically for this bot:**
-  - ✅ **Create** - Schedule new events with all the details
-  - 📖 **Read** - Check what's coming up on your calendar
-  - ✏️ **Update** - Modify existing events whenever you need
-  - ❌ **Delete** - Remove events that are no longer needed
-  
-Plus full timezone support and complete CRUD operations for your calendar.
 
-### 🔗 Under the Hood
-- **Real-time updates** - Uses Telegram webhooks for instant message delivery
-- **Persistent storage** - Saves user data, tokens, and preferences in an integrated database
-- **Stay logged in** - No need to authenticate every time you use it
-- **Smart user flow** - Automatically recognizes new vs. returning users and guides them accordingly
+**4 specialized tools:**
+- ✅ **Create** events with all details
+- 📖 **Read** upcoming events
+- ✏️ **Update** existing events
+- ❌ **Delete** events
 
-## ⚙️ Prerequisites
+Plus timezone support and complete CRUD operations.
 
-To replicate or learn from this project, you'll need:
-- n8n account (self-hosted or cloud)
-- Google Cloud project with Calendar API enabled
-- Telegram bot token (from BotFather)
-- Google Gemini API key
-
-**Note:** The custom calendar tools are proprietary and not included in this repo. Contact me if you're interested in learning how to build similar tools.
+### 🔗 Technical Features
+- Real-time Telegram webhooks
+- Persistent database (users, tokens, preferences)
+- Smart user flow (new vs. returning users)
 
 ## 🛠️ Built With
 
-- **n8n** - Workflow automation platform
-- **Google Gemini 2.5 Flash** - AI model for language processing and transcription
-- **Telegram Bot API** - For seamless chat integration
-- **Google Calendar API** - Full calendar access and management
-- **OAuth2** - Secure authentication protocol
-- **n8n DataTable** - Built-in database for data persistence
-
-## 💡 Ideas for Improvement
-
-Want to make it even better? Here are some suggestions:
-
-- 🔄 **Switch to OpenAI** - For improved reasoning and better performance (especially with complex queries)
-- 🔔 **Smart reminders** - Get notified before your events start
-- 🌍 **Multi-language support** - Automatically detect and respond in the user's language
-- 📊 **Usage analytics** - Track how people are using the bot and gather insights
-- 🎨 **Prettier responses** - Use Markdown formatting for more readable Telegram messages
-
----
+n8n · Google Gemini 2.5 Flash · Telegram Bot API · Google Calendar API · OAuth2
 
 ## 📚 What I Learned
 
-Building this project taught me:
-- Implementing OAuth2 flows from scratch
-- Managing token lifecycle and refresh patterns
-- Building AI agents with LangChain
+- Implementing OAuth2 flows and token lifecycle management
+- Building AI agents with LangChain and custom tools
 - Webhook architecture for real-time communication
-- Database design for multi-user applications
+- Multi-user database design
 - Voice-to-text integration with modern LLMs
 
----
+## ⚙️ Prerequisites
 
-## 📩 Get in Touch
+n8n account · Google Cloud (Calendar API) · Telegram bot token · Gemini API key
 
-This is a personal portfolio project, but I'd love to hear from you if you:
-- Found a bug and want to report it
-- Have ideas for improvements
-- Want to share how you're using it
-- Need help with implementation
+**Note:** Custom calendar tools are proprietary. Contact me to learn more.
 
-Feel free to reach out at **karim.glzm@gmail.com**
+## 💡 Future Enhancements
+
+🔄 Switch to OpenAI · 🔔 Smart reminders · 🌍 Multi-language · 📊 Analytics
 
 ---
+
+## 📩 Contact & License
+
+Personal portfolio project by **Karim González**
+
+Questions or ideas? **karim.glzm@gmail.com**
+
+**MIT License** - See [LICENSE](LICENSE) for details
 
 **Made with ❤️ as a learning project**
+
 ---
 
-**Bot Asistente de Telegram integrado con Google Calendar.**
- Un asistente agendador que permite a cualquier usuario iniciar sesión una vez desplegado. Diseñado para uso personal o empresarial, con potencial para monetizar o proporcionar acceso compartido entre equipos.
+# 🤖 Asistente de Calendario para Telegram
 
-## ✨ ¿Qué puede hacer?
+**Un bot inteligente de Telegram que se conecta perfectamente con Google Calendar.**
 
-### 🔐 Autenticación Segura y Fácil
-- **Inicio de sesión único con Google** - Conecta tu calendario una vez y listo
-- **Gestión inteligente de tokens** - Te mantiene conectado automáticamente, renovando tokens en segundo plano
-- **Enlaces personalizados** - Cada usuario recibe su propia URL segura de autenticación
-- **Recuperación de sesión** - Detecta sesiones expiradas y te guía suavemente en la re-autenticación
+Tu asistente personal de agenda. Perfecto para uso personal, equipos pequeños, o como servicio monetizable.
 
-### 🤖 Inteligencia Artificial
-- **Comprensión de lenguaje natural** - Háblale como le hablarías a una persona (potenciado por Google Gemini)
-- **Manejo inteligente de zonas horarias** - Extrae y valida automáticamente tu zona horaria desde la conversación
-- **Memoria conversacional** - Recuerda el contexto de tus mensajes anteriores para interacciones más naturales
+## 🎬 Míralo en acción
 
-### 🎙️ Funciona a Tu Manera
-- **Voz o texto** - Envía mensajes de voz y el bot los transcribe instantáneamente usando Gemini 2.5 Flash
-- **Detección automática** - Sabe si estás enviando audio o texto sin que tengas que especificarlo
-- **Procesamiento en tiempo real** - Los comandos de voz se convierten a texto al instante
+![Bot Demo](assets/gif.gif)
+
+## ✨ Características Principales
+
+### 🔐 Autenticación e IA
+- **Inicio de sesión único OAuth2** con renovación automática de tokens y recuperación de sesión
+- **Procesamiento de lenguaje natural** - Habla naturalmente usando Google Gemini
+- **Soporte de voz y texto** - Envía mensajes de voz, transcritos instantáneamente
+- **Memoria conversacional** - Interacciones contextuales a lo largo de los mensajes
 
 ### 📅 Control Completo del Calendario
-**4 herramientas especializadas construidas específicamente para este bot:**
-  - ✅ **Crear** - Programa nuevos eventos con todos los detalles
-  - 📖 **Leer** - Revisa qué tienes próximamente en tu calendario
-  - ✏️ **Actualizar** - Modifica eventos existentes cuando lo necesites
-  - ❌ **Eliminar** - Remueve eventos que ya no son necesarios
-  
-Además, soporte completo de zonas horarias y operaciones CRUD completas para tu calendario.
 
-### 🔗 Bajo el Capó
-- **Actualizaciones en tiempo real** - Usa webhooks de Telegram para entrega instantánea de mensajes
-- **Almacenamiento persistente** - Guarda datos de usuario, tokens y preferencias en una base de datos integrada
-- **Mantente conectado** - No necesitas autenticarte cada vez que lo uses
-- **Flujo inteligente de usuario** - Reconoce automáticamente usuarios nuevos vs. recurrentes y los guía en consecuencia
+**4 herramientas especializadas:**
+- ✅ **Crear** eventos con todos los detalles
+- 📖 **Leer** eventos próximos
+- ✏️ **Actualizar** eventos existentes
+- ❌ **Eliminar** eventos
 
-## ⚙️ Requisitos Previos
+Además, soporte de zonas horarias y operaciones CRUD completas.
 
-Para replicar o aprender de este proyecto, necesitarás:
-- **Cuenta de n8n** (self-hosted o en la nube)
-- **Proyecto de Google Cloud** con la API de Calendar habilitada
-- **Token de bot de Telegram** (obtenido desde BotFather)
-- **API key de Google Gemini** (o una de OpenAI como alternativa)
-- **Conocimientos básicos de:**
-  - OAuth2 y flujos de autenticación
-  - APIs REST y webhooks
-  - Conceptos de IA y LLMs
-
-**Nota Importante:** Las herramientas personalizadas de Google Calendar son propietarias y no están incluidas en este repositorio. Si estás interesado en aprender cómo construir herramientas similares, no dudes en contactarme.
-
+### 🔗 Características Técnicas
+- Webhooks de Telegram en tiempo real
+- Base de datos persistente (usuarios, tokens, preferencias)
+- Flujo inteligente de usuarios (nuevos vs. recurrentes)
 
 ## 🛠️ Construido Con
 
-- **n8n** - Plataforma de automatización de workflows
-- **Google Gemini 2.5 Flash** - Modelo de IA para procesamiento de lenguaje y transcripción
-- **Telegram Bot API** - Para integración perfecta con el chat
-- **Google Calendar API** - Acceso y gestión completa del calendario
-- **OAuth2** - Protocolo de autenticación segura
-- **n8n DataTable** - Base de datos integrada para persistencia de datos
-
-## 💡 Ideas para Mejorar
-
-¿Quieres hacerlo aún mejor? Aquí hay algunas sugerencias:
-
-- 🔄 **Cambiar a OpenAI** - Para mejor razonamiento y rendimiento mejorado (especialmente con consultas complejas)
-- 🔔 **Recordatorios inteligentes** - Recibe notificaciones antes de que empiecen tus eventos
-- 🌍 **Soporte multiidioma** - Detectar y responder automáticamente en el idioma del usuario
-- 📊 **Analíticas de uso** - Rastrear cómo las personas usan el bot y obtener insights
-- 🎨 **Respuestas más bonitas** - Usar formato Markdown para mensajes de Telegram más legibles
-
----
+n8n · Google Gemini 2.5 Flash · Telegram Bot API · Google Calendar API · OAuth2
 
 ## 📚 Lo Que Aprendí
 
-Construir este proyecto me enseñó:
-- **Implementación de flujos OAuth2 desde cero** - Entender el ciclo completo de autenticación y autorización
-- **Gestión del ciclo de vida de tokens** - Manejo de refresh tokens, expiración y renovación automática
-- **Construcción de agentes de IA con LangChain** - Diseño de herramientas personalizadas y gestión de memoria conversacional
-- **Arquitectura de webhooks** - Comunicación en tiempo real y manejo de eventos asíncronos
-- **Diseño de bases de datos multiusuario** - Persistencia de datos, relaciones entre usuarios y sus tokens
-- **Integración de voz a texto con LLMs modernos** - Procesamiento multimodal con Google Gemini 2.5 Flash
-- **Automatización de workflows complejos** - Orquestación de múltiples servicios y APIs en n8n
+- Implementación de flujos OAuth2 y gestión del ciclo de vida de tokens
+- Construcción de agentes de IA con LangChain y herramientas personalizadas
+- Arquitectura de webhooks para comunicación en tiempo real
+- Diseño de bases de datos multiusuario
+- Integración de voz a texto con LLMs modernos
+
+## ⚙️ Requisitos Previos
+
+Cuenta de n8n · Google Cloud (Calendar API) · Token de bot de Telegram · API key de Gemini
+
+**Nota:** Las herramientas personalizadas de calendario son propietarias. Contáctame para saber más.
+
+## 💡 Mejoras Futuras
+
+🔄 Cambiar a OpenAI · 🔔 Recordatorios inteligentes · 🌍 Multiidioma · 📊 Analíticas
 
 ---
 
-## 📩 Ponte en Contacto
+## 📩 Contacto y Licencia
 
-Este es un proyecto personal de portfolio, pero me encantaría saber de ti si:
-- Encontraste un bug y quieres reportarlo
-- Tienes ideas para mejoras
-- Quieres compartir cómo lo estás usando
-- Necesitas ayuda con la implementación
+Proyecto personal de portfolio por **Karim González**
 
-No dudes en contactarme en **karim.glzm@gmail.com**
+¿Preguntas o ideas? **karim.glzm@gmail.com**
 
----
+**Licencia MIT** - Ver archivo [LICENSE](LICENSE) para detalles
 
 **Hecho con ❤️ como proyecto de aprendizaje**
-
----
-
- 📄 License
-
-This project is available under the **MIT License**.
-
-I only ask that you:
-- 📝 Keep the original copyright notice
-- ⚖️ Include a copy of the MIT license
-
-See the [LICENSE](LICENSE) file for more details.
-
-
